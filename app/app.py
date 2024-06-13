@@ -10,13 +10,11 @@ url_base = 'https://granto-desafio-api.onrender.com'
 
 @app.route("/")
 def homePage():
-    return "Servidor Ok"
+    return render_template("index.html")
 
 @app.route("/insercao")
 def insercao():
     return render_template("insercao.html")
-
-from flask import render_template, redirect, url_for, request
 
 @app.route("/listagem/<int:pagina>/")
 @app.route("/listagem/<int:pagina>")
@@ -142,22 +140,8 @@ def busca(query = '', pagina = 1):
         return 405
 
 @app.route("/baixar", methods=["GET", "POST"])
-def baixar():
-    id_objeto = request.form.get("_id")
-    file_data = collection.find_one({"_id": ObjectId(id_objeto)})
-    if file_data:
-        # Obter os dados binários
-        binary_data = file_data.get('file_data')
-        nome = file_data.get('filename')
-        # Criar um novo arquivo PDF
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_pdf_file:
-            temp_pdf_path = temp_pdf_file.name
-            temp_pdf_file.write(binary_data)
-
-        # Enviar o PDF como resposta
-        return send_file(temp_pdf_path, as_attachment=True)
-    else:
-        return "Arquivo não encontrado", 404
+def baixar(documentos = [], row_number=0):
+    return 404
         
 if __name__ == '__main__':
     app.run(debug=True)
