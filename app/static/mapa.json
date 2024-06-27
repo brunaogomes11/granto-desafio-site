@@ -1,0 +1,31 @@
+{
+    "states": [
+        {"RO": {"name": "Rondônia", "number": 57}},
+        {"AC": {"name": "Acre", "number": 64}},
+        {"AM": {"name": "Amazonas", "number": 88}},
+        {"RR": {"name": "Roraima", "number": 21}},
+        {"PA": {"name": "Pará", "number": 34}},
+        {"AP": {"name": "Amapá", "number": 79}},
+        {"TO": {"name": "Tocantins", "number": 93}},
+        {"MA": {"name": "Maranhão", "number": 46}},
+        {"PI": {"name": "Piauí", "number": 37}},
+        {"CE": {"name": "Ceará", "number": 20}},
+        {"RN": {"name": "Rio Grande do Norte", "number": 5}},
+        {"PB": {"name": "Paraíba", "number": 58}},
+        {"PE": {"name": "Pernambuco", "number": 92}},
+        {"AL": {"name": "Alagoas", "number": 66}},
+        {"SE": {"name": "Sergipe", "number": 43}},
+        {"BA": {"name": "Bahia", "number": 85}},
+        {"MG": {"name": "Minas Gerais", "number": 80}},
+        {"ES": {"name": "Espírito Santo", "number": 75}},
+        {"RJ": {"name": "Rio de Janeiro", "number": 18}},
+        {"SP": {"name": "São Paulo", "number": 62}},
+        {"PR": {"name": "Paraná", "number": 40}},
+        {"SC": {"name": "Santa Catarina", "number": 78}},
+        {"RS": {"name": "Rio Grande do Sul", "number": 26}},
+        {"MS": {"name": "Mato Grosso do Sul", "number": 81}},
+        {"MT": {"name": "Mato Grosso", "number": 30}},
+        {"GO": {"name": "Goiás", "number": 55}},
+        {"DF": {"name": "Distrito Federal", "number": 7}}
+    ]
+}

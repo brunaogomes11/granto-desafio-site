@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static',filename='custom.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='custom.css.map')}}">
-
+    <script src="https://kit.fontawesome.com/ca4b4574b5.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -23,23 +23,28 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('homePage')}}">Página Inicial</a>
+                        <a class="nav-link" href="{{url_for('homePage')}}"><i class="fa-solid fa-house"></i> Página Inicial</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" >Inserção</a>
+                        <a class="nav-link active" aria-current="page" ><i class="fa-solid fa-upload"></i> Inserção</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('listagem')}}">Listagem</a>
+                        <a class="nav-link" href="{{url_for('listagem')}}"><i class="fa-solid fa-list"></i> Listagem</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('busca')}}">Buscar</a>
+                        <a class="nav-link" href="{{url_for('busca')}}"><i class="fa-solid fa-magnifying-glass"></i> Buscar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('painel')}}"><i class="fa-solid fa-chart-simple"></i> Painel</a>
                     </li>
                 </ul>
             </div>
+            <i class="fa-solid fa-sun" id="icone-tema" style="cursor: pointer; color: white;"></i>
+
         </div>
     </nav>
-    <div class="p-4 h-100 w-100 d-flex flex-column align-items-center container-fluid bg-primary text-white">
-        <form action="" class="d-flex flex-column align-items-center border bg-white rounded-3" style="width: 50vw;">
+    <div class="p-4 h-100 w-100 d-flex flex-column align-items-center container-fluid">
+        <form action="" class="d-flex flex-column align-items-center border rounded-3 border-0" style="width: 50vw;">
             <input type="file" class="form-control m-2" id="inputFile">
             <button type="submit" class="btn btn-secondary px-3 py-2 btn-sm">Submit</button>
         </form>
@@ -47,6 +52,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='theme_changer.js')}}">
+
+    </script>
 </body>
 
 </html>

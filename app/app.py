@@ -4,13 +4,17 @@ import os
 import configparser
 from pymongo import MongoClient, InsertOne
 import requests
+import json
 
 app = Flask(__name__)
 url_base = 'https://granto-desafio-api.onrender.com'
-
+theme = 'light'
 @app.route("/")
 def homePage():
     return render_template("index.html")
+@app.route("/painel")
+def painel():
+    return render_template("painel.html")
 
 @app.route("/insercao")
 def insercao():
@@ -31,7 +35,6 @@ def listagem(pagina=1):
         start_index = data['index_inicial']
         final_index = data['index_final']
         total_pages = data['num_pages']
-
         # Verificações adicionais de página atual
         previous_page = pagina - 1 if pagina > 1 else 1
         next_page = pagina + 1 if pagina < total_pages else total_pages
@@ -139,9 +142,21 @@ def busca(query = '', pagina = 1):
     else:
         return 405
 
-@app.route("/baixar", methods=["GET", "POST"])
-def baixar(documentos = [], row_number=0):
-    return 404
-        
+@app.route("/baixar/<id>")
+def baixar(id=''):
+    arquivo = f'{url_base}/baixar/{id}'
+    return redirect(arquivo, code=302)
+
+@app.route('/data_graficos/<grafico>')
+def data_graficos(grafico):
+    if (grafico != "mapa"):
+        with open('app/static/grafico.json', 'r') as f:
+            data = json.load(f)
+    else:
+        with open('app/static/mapa.json', 'r') as f:
+            data = json.load(f)
+    return jsonify(data)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
