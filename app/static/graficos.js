@@ -220,8 +220,10 @@ function hideLoadingModal() {
 grafico_mapa()
 document.getElementById('nav-home-tab').addEventListener('shown.bs.tab', function (event) {
     grafico_mapa()
+    hideLoadingModal();
 });
 
 document.getElementById('nav-profile-tab').addEventListener('shown.bs.tab', function (event) {
     grafico_barras()
+    hideLoadingModal();
 });
