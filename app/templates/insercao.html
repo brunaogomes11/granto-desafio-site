@@ -65,11 +65,23 @@
         {{ mensagem }}
     </div>
     {% endif %}
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center">
+            <div class="spinner-border text-primary" role="status" id="mapa-spinner">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='theme_changer.js')}}">
-
+    <script src="{{url_for('static', filename='theme_changer.js')}}"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            loadingModal.show();
+        });
     </script>
 </body>
 
