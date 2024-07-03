@@ -100,6 +100,8 @@ function grafico_mapa() {
             .attr("class", "state_contour")
             .attr("fill", "none")
             .attr("stroke", "black");
+            
+        console.log("Fechando modal")
         hideLoadingModal();
     }).catch(error => {
         console.error('Erro ao carregar os dados:', error);
@@ -112,12 +114,15 @@ function grafico_barras() {
             if (!response.ok) {
                 throw new Error('Erro ao carregar o JSON');
             }
+            hideLoadingModal();
             return response.json();
         })
         .then(data => {
+            hideLoadingModal();
             createChart(data.data);
         })
         .catch(error => {
+            hideLoadingModal();
             console.error('Erro ao carregar os dados:', error);
         });
 
@@ -198,7 +203,6 @@ function grafico_barras() {
             .style("font-size", "1rem")
             .call(d3.axisLeft(y).tickSizeOuter(0));
     }
-    hideLoadingModal();
 }
 
 function showLoadingModal() {
