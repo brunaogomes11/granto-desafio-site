@@ -76,89 +76,89 @@ def listagem(pagina=1):
 @app.route("/busca/", methods=['GET', 'POST'])
 @app.route("/busca", methods=['GET', 'POST'])
 def busca(query = '', pagina = 1):
-    # try:
-    if (request.method == "POST"):
-        query = request.form.get("search_bar")
-        response = requests.post(f'{url_base}/buscar?pagina={pagina}&query={query}')
-        data = response.json()
-        if (len(data['documentos']) == 0):
+    try:
+        if (request.method == "POST"):
+            query = request.form.get("search_bar")
+            response = requests.post(f'{url_base}/buscar?pagina={pagina}&query={query}')
+            data = response.json()
+            if (len(data['documentos']) == 0):
+                return render_template("busca_avancada.html", 
+                    documents=[], 
+                    qntd_docs=-1, 
+                    start_index=0, 
+                    final_index=0, 
+                    previous_page=0, 
+                    next_page=0, 
+                    current_page=0, 
+                    total_pages=0,
+                    search=query
+                )
+            # Captura dos dados necessários
+            documents = data['documentos']
+            qntd_docs = data['total']
+            start_index = data['index_inicial']
+            final_index = data['index_final']
+            total_pages = data['num_pages']
+
+            # Verificações adicionais de página atual
+            previous_page = pagina - 1 if pagina > 1 else 1
+            next_page = pagina + 1 if pagina < total_pages else total_pages
+
+            # Renderiza o template com os dados obtidos
             return render_template("busca_avancada.html", 
-                documents=[], 
-                qntd_docs=-1, 
-                start_index=0, 
-                final_index=0, 
-                previous_page=0, 
-                next_page=0, 
-                current_page=0, 
-                total_pages=0,
+                documents=documents, 
+                qntd_docs=qntd_docs, 
+                start_index=start_index, 
+                final_index=final_index, 
+                previous_page=previous_page, 
+                next_page=next_page, 
+                current_page=pagina, 
+                total_pages=total_pages,
                 search=query
             )
-        # Captura dos dados necessários
-        documents = data['documentos']
-        qntd_docs = data['total']
-        start_index = data['index_inicial']
-        final_index = data['index_final']
-        total_pages = data['num_pages']
+        elif (request.method == "GET"):
+            json_response = {"pagina":pagina, "query":query}
+            response = requests.post(f'{url_base}/buscar', json=json_response)
+            data = response.json()
+            if (len(data['documentos']) == 0):
+                return render_template("busca_avancada.html", 
+                    documents=[], 
+                    qntd_docs=-1, 
+                    start_index=0, 
+                    final_index=0, 
+                    previous_page=0, 
+                    next_page=0, 
+                    current_page=0, 
+                    total_pages=0,
+                    search=query
+                )
+            # Captura dos dados necessários
+            documents = data['documentos']
+            qntd_docs = data['total']
+            start_index = data['index_inicial']
+            final_index = data['index_final']
+            total_pages = data['num_pages']
 
-        # Verificações adicionais de página atual
-        previous_page = pagina - 1 if pagina > 1 else 1
-        next_page = pagina + 1 if pagina < total_pages else total_pages
+            # Verificações adicionais de página atual
+            previous_page = pagina - 1 if pagina > 1 else 1
+            next_page = pagina + 1 if pagina < total_pages else total_pages
 
-        # Renderiza o template com os dados obtidos
-        return render_template("busca_avancada.html", 
-            documents=documents, 
-            qntd_docs=qntd_docs, 
-            start_index=start_index, 
-            final_index=final_index, 
-            previous_page=previous_page, 
-            next_page=next_page, 
-            current_page=pagina, 
-            total_pages=total_pages,
-            search=query
-        )
-    elif (request.method == "GET"):
-        json_response = {"pagina":pagina, "query":query}
-        response = requests.post(f'{url_base}/buscar', json=json_response)
-        data = response.json()
-        if (len(data['documentos']) == 0):
+            # Renderiza o template com os dados obtidos
             return render_template("busca_avancada.html", 
-                documents=[], 
-                qntd_docs=-1, 
-                start_index=0, 
-                final_index=0, 
-                previous_page=0, 
-                next_page=0, 
-                current_page=0, 
-                total_pages=0,
+                documents=documents, 
+                qntd_docs=qntd_docs, 
+                start_index=start_index, 
+                final_index=final_index, 
+                previous_page=previous_page, 
+                next_page=next_page, 
+                current_page=pagina, 
+                total_pages=total_pages,
                 search=query
             )
-        # Captura dos dados necessários
-        documents = data['documentos']
-        qntd_docs = data['total']
-        start_index = data['index_inicial']
-        final_index = data['index_final']
-        total_pages = data['num_pages']
-
-        # Verificações adicionais de página atual
-        previous_page = pagina - 1 if pagina > 1 else 1
-        next_page = pagina + 1 if pagina < total_pages else total_pages
-
-        # Renderiza o template com os dados obtidos
-        return render_template("busca_avancada.html", 
-            documents=documents, 
-            qntd_docs=qntd_docs, 
-            start_index=start_index, 
-            final_index=final_index, 
-            previous_page=previous_page, 
-            next_page=next_page, 
-            current_page=pagina, 
-            total_pages=total_pages,
-            search=query
-        )
-    else:
-        return render_template("erros.html", status_code=405)
-    # except Exception as e:
-    #     return render_template("erros.html", status_code=e)
+        else:
+            return render_template("erros.html", status_code=405)
+    except Exception as e:
+        return render_template("erros.html", status_code=e)
 
 @app.route("/baixar/<id>")
 def baixar(id=''):
