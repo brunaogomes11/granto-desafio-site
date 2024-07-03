@@ -116,11 +116,9 @@ function grafico_barras() {
         })
         .then(data => {
             createChart(data.data);
-            hideLoadingModal();
         })
         .catch(error => {
             console.error('Erro ao carregar os dados:', error);
-            hideLoadingModal();
         });
 
     function createChart(data) {
@@ -199,6 +197,7 @@ function grafico_barras() {
             .attr("transform", `translate(0,0)`)
             .style("font-size", "1rem")
             .call(d3.axisLeft(y).tickSizeOuter(0));
+        hideLoadingModal();
     }
 }
 
