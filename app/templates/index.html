@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Página Inicial - PDF Reader</title>
+    <title>Página Inicial - ContratAI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static',filename='custom.css')}}">
@@ -12,7 +12,9 @@
     <script src="https://kit.fontawesome.com/ca4b4574b5.js" crossorigin="anonymous"></script>
     <style>
         .parallax{ 
-            background-image: url("{{ url_for('static', filename='imagens/background-parallax.jpg') }}");
+            background:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url("{{ url_for('static', filename='imagens/background-parallax.jpg') }}");
+            background-color: #000000b9;
             width: 100%; 
             height: 80vh; 
             background-attachment: fixed; 
@@ -25,7 +27,7 @@
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg bg-primary sticky-top">
         <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="#">PDF Reader</a>
+            <a class="navbar-brand" href="#">ContratAI</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -60,7 +62,7 @@
         <div class="parallax">
             <div class="d-flex justify-content-center align-items-center h-100 flex-column">
                 <h1 class="display-4 text-white text-center mb-4" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
-                    Bem-vindo ao PDF Reader
+                    Bem-vindo ao ContratAI
                 </h1>
                 <p class="text-white text-center mb-4" style="max-width: 600px;">
                 </p>
@@ -79,7 +81,7 @@
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-header bg-transparent">
-                            <img src="{{ url_for('static', filename='imagens/Bruno.jpeg') }}" class="img-fluid rounded-circle m-2" alt="Bruno Gomes Pereira" style="width: 250px; height: 250px;">
+                            <img src="{{ url_for('static', filename='imagens/Bruno.jpeg') }}" class="img-fluid rounded-circle m-2" alt="Bruno Gomes Pereira" style="width: 200px; height: 200px;">
                         </div>
                         <div class="card-body">
                             <h4>Bruno Gomes Pereira</h4>
@@ -93,28 +95,28 @@
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-header bg-transparent">
-                            <img src="{{ url_for('static', filename='imagens/JP.jpeg') }}" class="img-fluid rounded-circle m-2" alt="João Pedro Araújo Queiróz Barbosa" style="width: 250px; height: 250px;">
+                            <img src="{{ url_for('static', filename='imagens/JP.jpeg') }}" class="img-fluid rounded-circle m-2" alt="João Pedro Araújo Queiróz Barbosa" style="width: 200px; height: 200px;">
                         </div>
                         <div class="card-body">
                             <h4>João Pedro Araujo Queiroz Barbosa</h4>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href=" " class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
-                            <a href=" " class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                            <a href="https://github.com/joaopedroaqb" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
+                            <a href="https://www.linkedin.com/in/jpaqb/" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-header bg-transparent">
-                            <img src="{{ url_for('static', filename='imagens/Bruno.jpeg') }}" class="img-fluid rounded-circle m-2" alt="Matheus" style="width: 250px; height: 250px;">
+                            <img src="{{ url_for('static', filename='imagens/Matheus.jpeg') }}" class="img-fluid rounded-circle m-2" alt="Matheus" style="width: 200px; height: 200px;">
                         </div>
                         <div class="card-body">
-                            <h4>Matheus</h4>
+                            <h4>Matheus Ricardo de Jesus Camargos</h4>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="https://www.linkedin.com/in/bruno-gomes-pereira" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
-                            <a href="https://github.com/brunogp" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/matheus-ricardo-63a612250/" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
+                            <a href="https://github.com/mathi42/" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -124,14 +126,14 @@
                 <div class="col-md-12">
                     <div class="card border-0">
                         <div class="card-header bg-transparent">
-                            <img src="{{ url_for('static', filename='imagens/Andre.jpeg') }}" class="img-fluid rounded-circle m-2" alt="André Luiz França Batista" style="width: 250px; height: 250px;">
+                            <img src="{{ url_for('static', filename='imagens/Andre.jpeg') }}" class="img-fluid rounded-circle m-2" alt="André Luiz França Batista" style="width: 200px; height: 200px;">
                         </div>
                         <div class="card-body">
                             <h4>André Luiz França Batista</h4>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="https://www.linkedin.com/in/bruno-gomes-pereira" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
-                            <a href="https://github.com/brunogp" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/dr-andre-luiz-franca-batista/" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a> | 
+                            <a href="https://github.com/andreluizfrancabatista" class="link-underline link-underline-opacity-0 links link-light" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
                         </div>
                     </div>
                 </div>
