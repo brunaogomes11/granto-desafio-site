@@ -112,16 +112,13 @@ function grafico_barras() {
             if (!response.ok) {
                 throw new Error('Erro ao carregar o JSON');
             }
-            hideLoadingModal();
             return response.json();
         })
         .then(data => {
             createChart(data.data);
-            hideLoadingModal();
         })
         .catch(error => {
             console.error('Erro ao carregar os dados:', error);
-            hideLoadingModal();
         });
 
     function createChart(data) {
@@ -200,8 +197,8 @@ function grafico_barras() {
             .attr("transform", `translate(0,0)`)
             .style("font-size", "1rem")
             .call(d3.axisLeft(y).tickSizeOuter(0));
-        hideLoadingModal();
     }
+    hideLoadingModal();
 }
 
 function showLoadingModal() {
@@ -220,10 +217,8 @@ function hideLoadingModal() {
 grafico_mapa()
 document.getElementById('nav-home-tab').addEventListener('shown.bs.tab', function (event) {
     grafico_mapa()
-    hideLoadingModal();
 });
 
 document.getElementById('nav-profile-tab').addEventListener('shown.bs.tab', function (event) {
     grafico_barras()
-    hideLoadingModal();
 });
