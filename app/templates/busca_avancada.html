@@ -1,162 +1,357 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Busca por documentos - PDF Reader</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{url_for('static',filename='custom.css')}}" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='custom.css.map')}}"
+    />
+    <script
+      src="https://kit.fontawesome.com/ca4b4574b5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Página Inicial - PDF Reader</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{url_for('static',filename='custom.css')}}">
-  <link rel="stylesheet" href="{{url_for('static',filename='custom.css.map')}}">
-  <script src="https://kit.fontawesome.com/ca4b4574b5.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <nav class="navbar navbar-dark navbar-expand-lg vw-90 bg-primary sticky-top">
-    <div class="container-fluid d-flex justify-content-between">
-      <a class="navbar-brand" href="#">PDF Reader</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('homePage')}}"><i class="fa-solid fa-house"></i> Página Inicial</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('insercao')}}"><i class="fa-solid fa-upload"></i> Inserção</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('listagem')}}">
-              <i class="fa-solid fa-list"></i> Listagem</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page"><i class="fa-solid fa-magnifying-glass"></i> Busca</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('painel')}}"><i class="fa-solid fa-chart-simple"></i> Painel</a>
-          </li>
-        </ul>
+  <body>
+    <nav
+      class="navbar navbar-dark navbar-expand-lg vw-90 bg-primary sticky-top"
+    >
+      <div class="container-fluid d-flex justify-content-between">
+        <a class="navbar-brand" href="#">PDF Reader</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('homePage')}}"
+                ><i class="fa-solid fa-house"></i> Página Inicial</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('insercao')}}"
+                ><i class="fa-solid fa-upload"></i> Inserção</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('listagem')}}">
+                <i class="fa-solid fa-list"></i> Listagem</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page"
+                ><i class="fa-solid fa-magnifying-glass"></i> Busca</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('painel')}}"
+                ><i class="fa-solid fa-chart-simple"></i> Painel</a
+              >
+            </li>
+          </ul>
+        </div>
+        <i
+          class="fa-solid fa-sun"
+          id="icone-tema"
+          style="cursor: pointer; color: white"
+        ></i>
       </div>
-      <i class="fa-solid fa-sun" id="icone-tema" style="cursor: pointer; color: white;"></i>
-    </div>
-  </nav>
-  <form class="container py-3 vw-60 form-inline my-2 my-lg-0 d-flex align-self-center" action="{{ url_for('busca') }}"
-    method="post">
-    <div class="input-group">
-      <input class="form-control mr-sm-2" type="search" placeholder="Procurar documentos..."
-        aria-label="Procurar documentos..." name="search_bar" value="{{search}}">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </div>
-  </form>
-  <div class="table-responsive">
-    <table class="table table-striped table-hover container vw-800 mt-2 table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Empresa Contratante</th>
-          <th scope="col">CNPJ Contratante</th>
-          <th scope="col">Empresa Contratada</th>
-          <th scope="col">CNPJ Contratada</th>
-          <th scope="col">Valor Seguro</th>
-          <th scope="col">Vigência</th>
-          <th scope="col">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for document in documents %}
-        <tr>
-          <td>{{ document["preambulo"]["contratada"] }}</td>
-          <td>{{ document["preambulo"]["cnpj"] }}</td>
-          <td>{{ document["preambulo"]["contratante"] }}</td>
-          <td>{{ document["preambulo"]["cnpj"] }}</td>
-          <td>{{ document["preambulo"]["valor"] }}</td>
-          <td>{{ document["preambulo"]["vigencia"] }}</td>
-          <td>
-            {% if document['filename'] %}
+    </nav>
+    <form
+      class="container py-3 vw-60 form-inline my-2 my-lg-0 d-flex align-self-center"
+      action="{{ url_for('busca') }}"
+      method="post"
+    >
+      <div class="input-group">
+        <input
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Procurar documentos..."
+          aria-label="Procurar documentos..."
+          name="search_bar"
+          value="{{search}}"
+        />
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </form>
+    <div class="table-responsive">
+      <table
+        class="table table-striped table-hover container vw-800 mt-2 table-bordered"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Empresa Contratante</th>
+            <th scope="col">CNPJ Contratante</th>
+            <th scope="col">Empresa Contratada</th>
+            <th scope="col">CNPJ Contratada</th>
+            <th scope="col">Valor Seguro</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for document in documents %}
+          {%if document["preambulo"] %}
+          <tr>
+            <td>{{ document["preambulo"].get("contratante", {}).get("razao_social", "N/A") }}</td>
+            <td>{{ document["preambulo"].get("contratante", {}).get("cnpj", "N/A") }}</td>
+            <td>{{ document["preambulo"].get("contratada", {}).get("razao_social", "N/A") }}</td>
+            <td>{{ document["preambulo"].get("contratada", {}).get("cnpj", "N/A") }}</td>
+            <td>{{ document["preambulo"].get("vigencia", "N/A") }}</td>
+            <td>{{ document["preambulo"].get("valor", "N/A") }}</td>
+            <td>
               <div class="justify-content-center">
-                <a href="{{url_for('baixar', id=document['_id'])}}" target=”_blank”><i class="fa-solid fa-download text-dark"></i></a>
+                <button type="button" class="btn m-0 p-0 border-0" data-bs-toggle="modal"
+                  data-bs-target="#updateModal{{document['_id']}}"><i class="fa-solid fa-pencil text-dark"></i></button>
+                {% if document['filename'] %}
+                <a href="{{url_for('baixar', id=document['_id'])}}" target=”_blank”><i
+                    class="fa-solid fa-download text-dark"></i></a>
+                {% endif %}
+                <button type="button" class="btn m-0 p-0 border-0" data-bs-toggle="modal"
+                  data-bs-target="#confirmModal{{document['_id']}}"><i class="fa-solid fa-trash text-dark"></i></button>
+                <!-- MODAL EXCLUIR -->
+                <div class="modal fade" id="confirmModal{{document['_id']}}" data-bs-backdrop="static"
+                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="confirmModalLabel">Deseja mesmo remover esse documento?</h1>
+                      </div>
+                      <div class="modal-body">
+                        Ao clicar em sim você confirma que o documento pode ser excluido e que não terá como recuperá-lo
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <a href="{{url_for('deletar', id=document['_id'])}}"><button type="button" class="btn btn-danger"
+                            data-bs-dismiss="modal">Sim</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- MODAL UPGRADE -->
+                <div class="modal fade" id="updateModal{{document['_id']}}" data-bs-backdrop="static"
+                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="updateModalLabel">Faça suas modificações e aperte em atualizar
+                        </h1>
+                      </div>
+                      <form action="{{ url_for('atualizar') }}" method="post">
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="inputEmpresaContratante" class="form-label">Empresa Contratante</label>
+                            <input type="text" class="form-control" id="inputEmpresaContratante"
+                              name="inputEmpresaContratante"
+                              placeholder="{{ document['preambulo'].get('contratante', {}).get('razao_social', 'N/A') }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputCNPJContratante" class="form-label">CNPJ Contratante</label>
+                            <input type="text" class="form-control" id="inputCNPJContratante" name="inputCNPJContratante"
+                              placeholder="{{ document['preambulo'].get('contratante', {}).get('cnpj', 'N/A') }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputEmpresaContratada" class="form-label">Empresa Contratada</label>
+                            <input type="text" class="form-control" id="inputEmpresaContratada"
+                              name="inputEmpresaContratada"
+                              placeholder="{{ document['preambulo'].get('contratada', {}).get('razao_social', 'N/A') }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputCNPJContratada" class="form-label">CNPJ Contratada</label>
+                            <input type="text" class="form-control" id="inputCNPJContratada" name="inputCNPJContratada"
+                              placeholder="{{ document['preambulo'].get('contratada', {}).get('cnpj', 'N/A') }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputVigencia" class="form-label">Vigência Seguro</label>
+                            <input type="text" class="form-control" id="inputVigencia" name="inputVigencia"
+                              placeholder="{{ document['preambulo'].get('vigencia', 'N/A') }}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputValor" class="form-label">Valor Seguro</label>
+                            <input type="text" class="form-control" id="inputValor" name="inputValor"
+                              placeholder="{{ document['preambulo'].get('valor', 'N/A') }}">
+                          </div>
+                          <input type="text" class="form-control" style="display: none;" id="inputID" name="inputID"
+                            value="{{ document['_id'] }}">
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="text-center">Nenhuma informação encontrada</td>
+            <td>
+              <div class="justify-content-center">
+                {% if document['filename'] %}
+                <a href="{{url_for('baixar', id=document['_id'])}}" target=”_blank”><i
+                    class="fa-solid fa-download text-dark"></i></a>
+                {% endif %}
+                <button type="button" class="btn m-0 p-0 border-0" data-bs-toggle="modal"
+                  data-bs-target="#confirmModal{{document['_id']}}"><i class="fa-solid fa-trash text-dark"></i></button>
+                <div class="modal fade" id="confirmModal{{document['_id']}}" data-bs-backdrop="static"
+                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="confirmModalLabel">Deseja mesmo remover esse documento?</h1>
+                      </div>
+                      <div class="modal-body">
+                        Ao clicar em sim você confirma que o documento pode ser excluido e que não terá como recuperá-lo
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <a href="{{url_for('deletar', id=document['_id'])}}"><button type="button" class="btn btn-danger"
+                            data-bs-dismiss="modal">Sim</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% if documents %}
-  <nav>
-    <ul class="pagination justify-content-center">
-      <li class="page-item{% if current_page == 1 %} disabled{% endif %}">
-        <a class="page-link" href="{{ url_for('busca', pagina=previous_page, query=search) }}" aria-label="Anterior">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if documents %}
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item{% if current_page == 1 %} disabled{% endif %}">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=previous_page, query=search) }}"
+            aria-label="Anterior"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
 
-      {% if total_pages <= 5 %} {% for i in range(1, total_pages + 1) %} <li
-        class="page-item{% if i == current_page %} active{% endif %}">
-        <a class="page-link" href="{{ url_for('busca', pagina=i, query=search) }}">{{ i }}</a>
+        {% if total_pages <= 5 %} {% for i in range(1, total_pages + 1) %}
+        <li class="page-item{% if i == current_page %} active{% endif %}">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=i, query=search) }}"
+            >{{ i }}</a
+          >
+        </li>
+        {% endfor %} {% else %} {% if current_page <= 3 %} {% for i in range(1,
+        4) %}
+        <li class="page-item{% if i == current_page %} active{% endif %}">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=i, query=search) }}"
+            >{{ i }}</a
+          >
         </li>
         {% endfor %}
-        {% else %}
-        {% if current_page <= 3 %} {% for i in range(1, 4) %} <li
-          class="page-item{% if i == current_page %} active{% endif %}">
-          <a class="page-link" href="{{ url_for('busca', pagina=i, query=search) }}">{{ i }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item">
-            <a class="page-link" href="{{ url_for('busca', pagina=total_pages, query=search) }}">{{ total_pages }}</a>
-          </li>
-          {% elif current_page > total_pages - 3 %}
-          <li class="page-item">
-            <a class="page-link" href="{{ url_for('busca', pagina=1, query=search) }}">1</a>
-          </li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          {% for i in range(total_pages - 2, total_pages + 1) %}
-          <li class="page-item{% if i == current_page %} active{% endif %}">
-            <a class="page-link" href="{{ url_for('busca', pagina=i, query=search) }}">{{ i }}</a>
-          </li>
-          {% endfor %}
-          {% else %}
-          <li class="page-item">
-            <a class="page-link" href="{{ url_for('busca', pagina=1, query=search) }}">1</a>
-          </li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          {% for i in range(current_page - 1, current_page + 2) %}
-          <li class="page-item{% if i == current_page %} active{% endif %}">
-            <a class="page-link" href="{{ url_for('busca', pagina=i, query=search) }}">{{ i }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item">
-            <a class="page-link" href="{{ url_for('busca', pagina=total_pages, query=search) }}">{{ total_pages }}</a>
-          </li>
-          {% endif %}
-          {% endif %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=total_pages, query=search) }}"
+            >{{ total_pages }}</a
+          >
+        </li>
+        {% elif current_page > total_pages - 3 %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=1, query=search) }}"
+            >1</a
+          >
+        </li>
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        {% for i in range(total_pages - 2, total_pages + 1) %}
+        <li class="page-item{% if i == current_page %} active{% endif %}">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=i, query=search) }}"
+            >{{ i }}</a
+          >
+        </li>
+        {% endfor %} {% else %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=1, query=search) }}"
+            >1</a
+          >
+        </li>
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        {% for i in range(current_page - 1, current_page + 2) %}
+        <li class="page-item{% if i == current_page %} active{% endif %}">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=i, query=search) }}"
+            >{{ i }}</a
+          >
+        </li>
+        {% endfor %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=total_pages, query=search) }}"
+            >{{ total_pages }}</a
+          >
+        </li>
+        {% endif %} {% endif %}
 
-          <li class="page-item{% if current_page == total_pages %} disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('busca', pagina=next_page, query=search) }}" aria-label="Próximo">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-    </ul>
-    <div class="text-center">
-      <span>{{ start_index }}-{{ final_index }} de {{ qntd_docs }} documentos</span>
+        <li
+          class="page-item{% if current_page == total_pages %} disabled{% endif %}"
+        >
+          <a
+            class="page-link"
+            href="{{ url_for('busca', pagina=next_page, query=search) }}"
+            aria-label="Próximo"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+      <div class="text-center">
+        <span
+          >{{ start_index }}-{{ final_index }} de {{ qntd_docs }}
+          documentos</span
+        >
+      </div>
+    </nav>
+    {% elif qntd_docs == -1 %}
+    <div class="mx-auto w-100 text-center">
+      <h4>NÃO FOI POSSÍVEL ACHAR NENHUM DOCUMENTO</h4>
     </div>
-  </nav>
-  {% elif qntd_docs == -1 %}
-  <h4>Não foi possível encontrar nenhum documento</h4>
-  {% endif %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <script src="{{url_for('static', filename='theme_changer.js')}}">
-
-  </script>
-</body>
-
+    {% endif %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{url_for('static', filename='theme_changer.js')}}"></script>
+  </body>
 </html>

@@ -1,5 +1,8 @@
 const iconeTema = document.getElementById('icone-tema');
 const iconeDownload = document.querySelectorAll('.fa-download');
+const iconeTrash = document.querySelectorAll('.fa-trash');
+const iconePencil = document.querySelectorAll('.fa-pencil');
+const links = document.querySelectorAll('.links');
 let tema = 'light'; // Tema inicial
 const temaSalvo = localStorage.getItem('tema');
 if (temaSalvo) {
@@ -16,12 +19,36 @@ function aplicarTema() {
             element.classList.remove('text-light');  
             element.classList.add('text-dark');
         });
+        iconeTrash.forEach(element => {
+            element.classList.remove('text-light');  
+            element.classList.add('text-dark');
+        });
+        iconePencil.forEach(element => {
+            element.classList.remove('text-light');  
+            element.classList.add('text-dark');
+        });
+        links.forEach(element => {
+            element.classList.remove('link-light');  
+            element.classList.add('link-dark');
+        });
     } else {
         iconeTema.classList.remove('fa-sun');
         iconeTema.classList.add('fa-moon');
         iconeDownload.forEach(element => {
             element.classList.add('text-light');
             element.classList.remove('text-dark');
+        });
+        iconeTrash.forEach(element => {
+            element.classList.add('text-light');
+            element.classList.remove('text-dark');
+        });
+        iconePencil.forEach(element => {
+            element.classList.add('text-light');
+            element.classList.remove('text-dark');
+        });
+        links.forEach(element => {
+            element.classList.add('link-light');
+            element.classList.remove('link-dark');  
         });
     }
     localStorage.setItem('tema', tema);
@@ -40,8 +67,12 @@ iconeTema.addEventListener('click', () => {
 function atualizarTemaGrafico() {
   const temaAtual = document.body.dataset.bsTheme;
   const corTexto = temaAtual === 'light' ? 'black' : 'white';
-
-  // Atualiza a cor dos rótulos de valor no gráfico
-  d3.selectAll(".bar-value")
-      .attr("fill", corTexto);
+  const {
+    host, hostname, href, origin, pathname, port, protocol, search
+  } = window.location
+  if(pathname == '/painel') {
+    // Atualiza a cor dos rótulos de valor no gráfico
+    d3.selectAll(".bar-value")
+        .attr("fill", corTexto);
+  }
 }

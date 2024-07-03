@@ -1,4 +1,5 @@
 function grafico_mapa() {
+    showLoadingModal();
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
     // Dimensões do SVG
@@ -19,7 +20,7 @@ function grafico_mapa() {
     // Configura o grupo principal do SVG
     const g = svg.append("g");
     const proj_br = d3.geoMercator()
-        .scale(500)
+        .scale(700)
         .center([-55, -15])
         .translate([width / 2, height / 2]);
 
@@ -31,10 +32,9 @@ function grafico_mapa() {
         .attr("class", "tooltip card")
         .style("opacity", 0)
         .style("position", "fixed")
-        .style("left", "20vw")
+        .style("left", (screenWidth < 900) ? "10px" : "20vw")
         .style("top", "50vh")
         .style("pointer-events", "none");
-
     Promise.all([
         d3.json('https://raw.githubusercontent.com/fititnt/gis-dataset-brasil/master/uf/topojson/uf.json'),
         fetch('data_graficos/mapa')
@@ -53,10 +53,10 @@ function grafico_mapa() {
             const info = state[sigla];
             stateNumbers[sigla] = info.number;
         });
-        // Cria uma escala de cores baseada nos valores dos números dos estados
+        const maxNumber = Math.max(...Object.values(stateNumbers));
         const color = d3.scaleSequential(d3.interpolatePurples)
-            .domain([0, 100]); // Ajuste o domínio conforme os seus valores reais
-
+            .domain([0, maxNumber]);
+        
         // Desenha os estados
         g.selectAll(".state")
             .data(states.features)
@@ -78,7 +78,6 @@ function grafico_mapa() {
                 if (stateName == 'DF') {
                     stateName.set('Distrito Federal')
                 }
-                console.log(x, y)
                 const stateNumber = stateNumbers[stateId] || 0;
                 tooltip.transition()
                     .duration(200)
@@ -101,11 +100,13 @@ function grafico_mapa() {
             .attr("class", "state_contour")
             .attr("fill", "none")
             .attr("stroke", "black");
+        hideLoadingModal();
     }).catch(error => {
         console.error('Erro ao carregar os dados:', error);
     });
 }
 function grafico_barras() {
+    showLoadingModal();
     fetch('/data_graficos/grafico')
         .then(response => {
             if (!response.ok) {
@@ -114,20 +115,20 @@ function grafico_barras() {
             return response.json();
         })
         .then(data => {
-            // Chama a função para criar o gráfico com os dados carregados
             createChart(data.data);
+            hideLoadingModal();
         })
         .catch(error => {
             console.error('Erro ao carregar os dados:', error);
+            hideLoadingModal();
         });
 
     function createChart(data) {
-
         // Dimensões do gráfico
         const marginTop = 50;
-        const marginRight = 50;
-        const marginBottom = 0;
-        const marginLeft = 250;
+        const marginRight = 400; // Aumentado para caber os rótulos
+        const marginBottom = 20;
+        const marginLeft = 300; // Aumentado para caber os rótulos
         const width = 800;
         const height = 600;
         const ptBr = d3.formatLocale({
@@ -137,7 +138,6 @@ function grafico_barras() {
             currency: ["R$", ""]
         });
 
-        // Cria as escalas
         const x = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.eixo_valores)])
             .range([0, width]);
@@ -145,27 +145,25 @@ function grafico_barras() {
         const y = d3.scaleBand()
             .domain(data.sort((a, b) => d3.ascending(a.eixo_categorias, b.eixo_categorias)).map(d => d.eixo_categorias))
             .rangeRound([0, height - marginTop - marginBottom])
-            .padding(0);
+            .padding(0.1);
 
-        // Ajusta as margens internas para centralizar o gráfico
         const innerWidth = width + marginLeft + marginRight;
         const innerHeight = height + marginTop + marginBottom;
         const container = document.getElementById('grafico-container');
         if (container.childNodes.length !== 0) {
-            container.innerHTML = ''
+            container.innerHTML = '';
         }
-        // Cria o contêiner SVG
+
         const svg = d3.select("#grafico-container").append("svg")
             .attr("width", innerWidth)
             .attr("height", innerHeight)
             .attr("viewBox", `0 0 ${innerWidth} ${innerHeight}`)
-            .attr("style", "max-width: 100%; height: auto; font: 1rem sans-serif;");
+            .attr("preserveAspectRatio", `xMidYMid meet`)
+            .attr("style", "max-width: 90%; height: auto; font: 1rem sans-serif;");
 
-        // Grupo que conterá o gráfico centralizado
         const g = svg.append("g")
-            .attr("transform", `translate(${(innerWidth - width) / 2}, ${(innerHeight - height) / 2})`);
+            .attr("transform", `translate(${marginLeft}, ${marginTop})`);
 
-        // Adiciona um retângulo para cada categoria
         g.append("g")
             .attr("fill", "#4510a3")
             .selectAll("rect")
@@ -173,11 +171,13 @@ function grafico_barras() {
             .join("rect")
             .attr("x", x(0))
             .attr("y", d => y(d.eixo_categorias))
-            .attr("width", d => x(d.eixo_valores))
             .attr("class", "bordered border-1")
-            .attr("height", y.bandwidth());
+            .attr("height", y.bandwidth())
+            .attr("width", 0)
+            .transition()
+            .duration(1000)
+            .attr("width", d => x(d.eixo_valores));
 
-        // Adiciona os rótulos de valor ao lado direito de cada barra
         g.append("g")
             .selectAll("text")
             .data(data)
@@ -189,19 +189,30 @@ function grafico_barras() {
             .attr("fill", "currentColor")
             .text(d => ptBr.format("$,.2f")(d.eixo_valores));
 
-
-        // Cria os eixos
         g.append("g")
             .attr("transform", `translate(0,0)`)
             .call(d3.axisTop(x).ticks(4).tickFormat(ptBr.format("$,.2f")))
-            .style("font-size","1rem")
+            .style("font-size", "1rem")
             .call(g => g.select(".domain").remove());
 
         g.append("g")
             .attr("transform", `translate(0,0)`)
-            .style("font-size","1rem")
+            .style("font-size", "1rem")
             .call(d3.axisLeft(y).tickSizeOuter(0));
     }
+}
+
+function showLoadingModal() {
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
+    loadingModal.show();
+}
+
+function hideLoadingModal() {
+    const loadingModal = bootstrap.Modal.getInstance(document.getElementById('loadingModal'));
+    loadingModal.hide();
 }
 
 grafico_mapa()
