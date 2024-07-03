@@ -112,13 +112,16 @@ function grafico_barras() {
             if (!response.ok) {
                 throw new Error('Erro ao carregar o JSON');
             }
+            hideLoadingModal();
             return response.json();
         })
         .then(data => {
             createChart(data.data);
+            hideLoadingModal();
         })
         .catch(error => {
             console.error('Erro ao carregar os dados:', error);
+            hideLoadingModal();
         });
 
     function createChart(data) {
