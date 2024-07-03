@@ -108,21 +108,17 @@ function grafico_mapa() {
     });
 }
 function grafico_barras() {
-    showLoadingModal();
     fetch('/data_graficos/grafico')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao carregar o JSON');
             }
-            hideLoadingModal();
             return response.json();
         })
         .then(data => {
-            hideLoadingModal();
             createChart(data.data);
         })
         .catch(error => {
-            hideLoadingModal();
             console.error('Erro ao carregar os dados:', error);
         });
 
