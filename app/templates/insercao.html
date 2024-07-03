@@ -50,8 +50,9 @@
         <b>Clique em escolher o arquivo e envie o documento à ser lido</b>
         <form action="{{ url_for('insercao') }}" method=post enctype=multipart/form-data
             class="d-flex flex-column align-items-center border rounded-3 border-0" style="width: 50vw;">
-            <input type="file" name='file' class="form-control m-2" id="inputFile" required>
-            <button type="submit" class="btn btn-secondary px-3 py-2 btn-sm">Enviar</button>
+            <input type="file" name='file' class="form-control m-2" id="inputFile" accept=".pdf,.doc,.docx,.txt" required>
+            <span class="text-muted">Somente arquivos .pdf, .doc, .docx e .txt são aceitos</span>
+            <button type="submit" class="btn btn-secondary mt-2 px-3 py-2 btn-sm">Enviar</button>
         </form>
     </div>
     {% if response_code == 200 %}

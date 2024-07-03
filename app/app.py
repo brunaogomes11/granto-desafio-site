@@ -7,7 +7,7 @@ import requests
 import json
 
 app = Flask(__name__)
-url_base = 'https://granto-desafio-api.onrender.com'
+url_base = 'https://granto-desafio-api-ce070d53531a.herokuapp.com/'
 theme = 'light'
 @app.route("/")
 def homePage():
