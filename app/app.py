@@ -158,7 +158,7 @@ def busca(query = '', pagina = 1):
         else:
             return render_template("erros.html", status_code=405)
     except Exception as e:
-        return render_template("erros.html", status_code=e)
+        return render_template("erros.html", status_code="Por favor, recarregue a página. Estamos tendo problemas no servidor")
 
 @app.route("/baixar/<id>")
 def baixar(id=''):
